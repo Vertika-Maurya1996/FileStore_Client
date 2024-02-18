@@ -1,13 +1,21 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert, Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Row,
+} from "reactstrap";
 
 import { api } from "../utilities/api";
 import { toast } from "react-toastify";
 
 const Login = () => {
-  const [message, setMessage] = useState("");
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -22,17 +30,15 @@ const Login = () => {
   // Handle form submission
   const handleSubmit = async (values) => {
     try {
-
       const { data } = await api.post("/user/login", values);
       if (data?.token) {
         navigate("/profile");
-        localStorage.setItem("userID", data.userID);
-      }
-      else{
-        toast.error(data?.message ||"Unauthorised")
+        localStorage.setItem("userID", data?.userID);
+      } else {
+        toast.error(data?.message || "Unauthorised");
       }
     } catch (err) {
-      toast.error("Error while login")
+      toast.error("Error while login");
       console.log("Error while login", err);
     }
   };

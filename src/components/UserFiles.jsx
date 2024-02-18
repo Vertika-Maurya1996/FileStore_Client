@@ -1,17 +1,15 @@
-import axios from "axios";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { MdDelete, MdDownload } from "react-icons/md";
-import { Alert, Table } from "reactstrap";
+import { Table } from "reactstrap";
 
 import { api } from "../utilities/api";
 import VerificationModal from "./VerificationModal";
 import { toast } from "react-toastify";
 
-const UserFiles = ({ data = "",getUserDetails=null }) => {
+const UserFiles = ({ data = "", getUserDetails = null }) => {
   const [modal, setModal] = useState(false);
   const [file, setFile] = useState("");
-  const [message, setMessage] = useState("");
 
   const handleClose = () => {
     setModal(false);
@@ -24,13 +22,13 @@ const UserFiles = ({ data = "",getUserDetails=null }) => {
 
   const handleDelete = async (id) => {
     try {
-      const { data } = await api.post("/api/delete", {id});
-      if(!data?.status){
-        toast.error("Unable to delete message")
+      const { data } = await api.post("/api/delete", { id });
+      if (!data?.status) {
+        toast.error("Unable to delete message");
         return;
       }
-      toast.success(data?.message||"File deleted successfully")
-      getUserDetails()
+      toast.success(data?.message || "File deleted successfully");
+      getUserDetails();
     } catch (err) {
       console.log("Something went wrong");
     }
@@ -46,7 +44,6 @@ const UserFiles = ({ data = "",getUserDetails=null }) => {
         />
       )}
       <div className="ul-table mt-3">
-        {message && <Alert color="danger">{message}</Alert>}
         <Table hover striped>
           <thead>
             <tr>
@@ -63,7 +60,7 @@ const UserFiles = ({ data = "",getUserDetails=null }) => {
               ? data.map((item, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-         
+
                     <td scope="row">
                       <p
                         className="text-truncate"
@@ -78,10 +75,10 @@ const UserFiles = ({ data = "",getUserDetails=null }) => {
                     </td>
                     <td scope="row">
                       <span onClick={() => handleOpenModal(item.filename)}>
-                        <MdDownload  size={18}/>
+                        <MdDownload size={18} />
                       </span>{" "}
                       <span onClick={() => handleDelete(item._id)}>
-                        <MdDelete color="#E50505" size={18}/>
+                        <MdDelete color="#E50505" size={18} />
                       </span>{" "}
                     </td>
                   </tr>

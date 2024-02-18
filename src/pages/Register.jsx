@@ -1,16 +1,22 @@
-import axios from "axios";
 import { useFormik } from "formik";
-// Import necessary libraries and components
-import React, { useEffect, useState } from "react";
-import { Alert, Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import React from "react";
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Row,
+} from "reactstrap";
 
 import { api } from "../utilities/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-// Create the Signup component
 const Signup = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -27,15 +33,15 @@ const Signup = () => {
   const handleSubmit = async (values) => {
     try {
       const { data } = await api.post("/api/register", values);
-      if(!data?.status){
-       toast.error(data?.message||"Something went wrong")
-       return;
+      if (!data?.status) {
+        toast.error(data?.message || "Something went wrong");
+        return;
       }
-      toast.success(data?.message||"Registeration successful")
-      navigate("/")
+      toast.success(data?.message || "Registeration successful");
+      navigate("/");
     } catch (err) {
       console.log("error while registering user", err);
-      toast.error("Something went wrong")
+      toast.error("Something went wrong");
     }
   };
   return (

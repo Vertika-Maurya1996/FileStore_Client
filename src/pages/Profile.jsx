@@ -14,28 +14,28 @@ const Profile = () => {
     let userID = localStorage.getItem("userID");
     try {
       const { data } = await api.post("/api/getUserDetails", { userID });
-      setUserData(data.userData.userInfo);
-      setFileData(data.userData.files);
+      setUserData(data?.userData?.userInfo||"");
+      setFileData(data?.userData?.files||"");
     } catch (err) {
       console.log("error", err);
-      toast.error("Something went wrong")
+      toast.error("Something went wrong");
     }
   };
-  
+
   useEffect(() => {
     getUserDetails();
   }, []);
   return (
     <div className="container my-5">
       <Row>
-        <Col md={6} >
+        <Col md={6}>
           <UserProfile data={userData} />
         </Col>
         <Col md={6}>
-        <Upload getUserDetails={getUserDetails}/>
+          <Upload getUserDetails={getUserDetails} />
         </Col>
         <Col md={12}>
-          <UserFiles data={fileData} getUserDetails={getUserDetails}/>
+          <UserFiles data={fileData} getUserDetails={getUserDetails} />
         </Col>
       </Row>
     </div>
